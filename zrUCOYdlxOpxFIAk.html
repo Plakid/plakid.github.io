@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sarah & Divin - Notre Mariage</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            body {
+                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+            }
+
+            .invitation-container {
+                width: 100%;
+                max-width: 400px;
+                background: white;
+                border-radius: 20px;
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+                position: relative;
+                animation: fadeIn 1.5s ease-out;
+            }
+
+            /* Photo principale des mariés */
+            .main-photo {
+                
+                width: 100%;
+                height: 500px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .main-photo img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.5s ease;
+            }
+
+            .main-photo:hover img {
+                transform: scale(1.05);
+            }
+
+            .photo-overlay {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(transparent, rgba(0,0,0,0.7));
+                color: white;
+                padding: 20px;
+                text-align: center;
+            }
+
+            .header {
+                background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+                padding: 30px 20px;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .header::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+                background-size: cover;
+            }
+
+            .couple-names {
+                font-size: 28px;
+                color: white;
+                margin-bottom: 10px;
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+                animation: slideDown 1s ease-out;
+            }
+
+            .date {
+                font-size: 18px;
+                color: white;
+                margin-bottom: 5px;
+                animation: slideUp 1s ease-out 0.3s both;
+            }
+
+            .location {
+                font-size: 16px;
+                color: white;
+                animation: slideUp 1s ease-out 0.6s both;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .message {
+                text-align: center;
+                margin-bottom: 25px;
+                line-height: 1.6;
+                color: #555;
+                animation: fadeIn 1s ease-out 0.9s both;
+            }
+
+            .details {
+                background: #f9f9f9;
+                border-radius: 15px;
+                padding: 20px;
+                margin-bottom: 20px;
+                animation: fadeIn 1s ease-out 1.2s both;
+            }
+
+            .detail-item {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+            .detail-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .detail-icon {
+                width: 40px;
+                height: 40px;
+                background: #ff9a9e;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 15px;
+                color: white;
+            }
+
+            .detail-text {
+                flex: 1;
+            }
+
+            /* Section Galerie Photo */
+            .gallery-section {
+                margin: 25px 0;
+                animation: fadeIn 1s ease-out 1.5s both;
+            }
+
+            .gallery-title {
+                text-align: center;
+                font-size: 22px;
+                margin-bottom: 15px;
+                color: #ff9a9e;
+                position: relative;
+            }
+
+            .gallery-title::after {
+                content: "";
+                position: absolute;
+                bottom: -8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 60px;
+                height: 3px;
+                background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+                border-radius: 2px;
+            }
+
+            .gallery-container {
+                position: relative;
+                height: 550px;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .gallery-slide {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                transition: opacity 0.8s ease, transform 0.8s ease;
+                transform: scale(0.9);
+            }
+
+            .gallery-slide.active {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            .gallery-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 15px;
+            }
+
+            .gallery-caption {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+                color: white;
+                padding: 15px;
+                text-align: center;
+                border-radius: 0 0 15px 15px;
+            }
+
+            .gallery-nav {
+                display: flex;
+                justify-content: center;
+                margin-top: 15px;
+            }
+
+            .gallery-dot {
+                width: 10px;
+                height: 10px;
+                background: #ddd;
+                border-radius: 50%;
+                margin: 0 5px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .gallery-dot.active {
+                background: #ff9a9e;
+                transform: scale(1.2);
+            }
+
+            .gallery-arrows {
+                position: absolute;
+                top: 50%;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                padding: 0 15px;
+                transform: translateY(-50%);
+                z-index: 2;
+            }
+
+            .gallery-arrow {
+                width: 35px;
+                height: 35px;
+                background: rgba(255, 255, 255, 0.8);
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            }
+
+            .gallery-arrow:hover {
+                background: white;
+                transform: scale(1.1);
+            }
+
+            /* Section QR Code */
+            .qrcode-section {
+                margin: 25px 0;
+                animation: fadeIn 1s ease-out 1.8s both;
+            }
+
+            .qrcode-title {
+                text-align: center;
+                font-size: 22px;
+                margin-bottom: 15px;
+                color: #ff9a9e;
+                position: relative;
+            }
+
+            .qrcode-title::after {
+                content: "";
+                position: absolute;
+                bottom: -8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 60px;
+                height: 3px;
+                background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+                border-radius: 2px;
+            }
+
+            .qrcode-container {
+                text-align: center;
+                margin: 20px 0;
+            }
+
+            .qrcode-image {
+                width: 200px;
+                height: 200px;
+                display: block;
+                margin: 0 auto;
+                border-radius: 10px;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            }
+
+            .guest-info {
+                font-size: 18px;
+                margin: 15px 0;
+                color: #555;
+                text-align: center;
+                padding: 10px;
+                background: #f9f9f9;
+                border-radius: 10px;
+            }
+
+            .footer {
+                text-align: center;
+                padding: 20px;
+                color: #888;
+                font-size: 14px;
+                animation: fadeIn 1s ease-out 2.1s both;
+            }
+
+            .floating-hearts {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                pointer-events: none;
+                z-index: 1;
+            }
+
+            .heart {
+                position: absolute;
+                color: rgba(255, 154, 158, 0.7);
+                font-size: 20px;
+                animation: float 6s ease-in infinite;
+            }
+
+            .music-control {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                background: rgba(255, 255, 255, 0.3);
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                cursor: pointer;
+                z-index: 2;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+
+            @keyframes slideDown {
+                from { 
+                    opacity: 0;
+                    transform: translateY(-30px);
+                }
+                to { 
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes slideUp {
+                from { 
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to { 
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.03); }
+                100% { transform: scale(1); }
+            }
+
+            @keyframes float {
+                0% {
+                    transform: translateY(100vh) rotate(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 1;
+                }
+                90% {
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-100px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+
+            @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+            .swirl-text {
+                font-family: "Tangerine", cursive;
+                font-weight: 400;
+                font-size: 60px;
+                font-style: normal;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+                transform: rotate(-2deg);
+                animation: swirl 3s infinite ease-in-out;
+            }
+
+            @keyframes swirl {
+                0% { transform: rotate(-2deg); }
+                50% { transform: rotate(2deg); }
+                100% { transform: rotate(-2deg); }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="invitation-container">
+            <!-- Photo principale des mariés -->
+            <div class="main-photo">
+                <img src="1.jpg" alt="Sarah & Divin">
+                <div class="photo-overlay">
+                    <h2 class = "swirl-text">Sarah & Divin</h2>
+                    <p>Ensemble pour la vie</p>
+                </div>
+            </div>
+
+            <div class="header">
+                <div class="music-control" id="musicToggle">
+                    <i class="fas fa-music"></i>
+                </div>
+                <h1 class="couple-names">Mariage Réligieux</h1>
+                <p class="date">Samedi 06 Décembre 2025</p>
+                <p class="location">Marie France Hotel, Monishop, Kitambo/Kinshasa</p>
+            </div>
+
+            <div class="floating-hearts" id="heartsContainer"></div>
+
+            <div class="content">
+                <p class="message">Nous avons le grand plaisir de vous inviter à célébrer notre union et partager avec nous ce moment de bonheur.</p>
+
+                <div class="details">
+                    <div class="detail-item">
+                        <div class="detail-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="detail-text">
+                            <strong>Bénédiction Nuptiale</strong><br>
+                            10h00 - Temple de la Grâce d'Adonaï, Kitambo Velodrôme
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-icon">
+                            <i class="fas fa-glass-cheers"></i>
+                        </div>
+                        <div class="detail-text">
+                            <strong>Réception</strong><br>
+                            19h00 - Marie France Hotel, Monishop, Kitambo
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="detail-text">
+                            <strong>Dîner & Soirée</strong><br>
+                            21h00 - Salle des Fêtes Marie France Hotel, Monishop, Kitambo
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Galerie Photo -->
+                <div class="gallery-section">
+                    <h2 class="gallery-title">Nos Moments</h2>
+                    <div class="gallery-container">
+                        <div class="gallery-slide active">
+                            <img src="16.png" alt="Nos débuts" class="gallery-image">
+                            <div class="gallery-caption">Nos débuts</div>
+                        </div>
+                        <div class="gallery-slide">
+                            <img src="12.jpg" alt="un jour à la gare central" class="gallery-image">
+                            <div class="gallery-caption">Un jour à la gare-central</div>
+                        </div>
+                        <div class="gallery-slide">
+                            <img src="18.jpg" alt="Fiançailles" class="gallery-image">
+                            <div class="gallery-caption">Nos fiançailles - 2024</div>
+                        </div>
+                        <div class="gallery-slide">
+                            <img src="2.jpg" alt="Séance photo" class="gallery-image">
+                            <div class="gallery-caption">Séance photo - Avril 2025</div>
+                        </div>
+
+                        <div class="gallery-arrows">
+                            <div class="gallery-arrow prev-arrow">
+                                <i class="fas fa-chevron-left"></i>
+                            </div>
+                            <div class="gallery-arrow next-arrow">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-nav">
+                        <div class="gallery-dot active" data-index="0"></div>
+                        <div class="gallery-dot" data-index="1"></div>
+                        <div class="gallery-dot" data-index="2"></div>
+                        <div class="gallery-dot" data-index="3"></div>
+                    </div>
+                </div>
+
+                <!-- Section QR Code (remplace la section RSVP) -->
+                <div class="qrcode-section">
+                    <h2 class="qrcode-title">Jonathan & Dorcas</h2>
+                    <div class="guest-info">Votre QR Code d'Invitation</div>
+                    <div class="qrcode-container">
+                        <img src="zrUCOYdlxOpxFIAk.png" alt="QR Code Invitation" class="qrcode-image">
+                    </div>
+                    <p style="text-align: center; color: #666; margin-top: 10px;">Présentez ce QR code à l'entrée de la cérémonie</p>
+                </div>
+
+            </div>
+
+            <div class="footer">
+                <p>Nous vous souhaitons la bienvenue</p>
+            </div>
+        </div>
+
+        <audio id="weddingMusic" loop>
+            <source src="https://assets.mixkit.co/music/preview/mixkit-happy-day-583.mp3" type="audio/mpeg">
+        </audio>
+
+        <script>
+            // Création des cœurs flottants
+            function createHearts() {
+                const heartsContainer = document.getElementById('heartsContainer');
+                const heartCount = 15;
+
+                for (let i = 0; i < heartCount; i++) {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤';
+                    heart.classList.add('heart');
+
+                    // Position aléatoire
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+
+                    // Animation avec délai aléatoire
+                    heart.style.animationDelay = Math.random() * 5 + 's';
+
+                    heartsContainer.appendChild(heart);
+                }
+            }
+
+            // Contrôle de la musique
+            const musicToggle = document.getElementById('musicToggle');
+            const weddingMusic = document.getElementById('weddingMusic');
+            let musicPlaying = false;
+
+            musicToggle.addEventListener('click', function () {
+                if (musicPlaying) {
+                    weddingMusic.pause();
+                    musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+                } else {
+                    weddingMusic.play().catch(e => {
+                        console.log("La lecture automatique a été bloquée. Cliquez pour activer la musique.");
+                    });
+                    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+                }
+                musicPlaying = !musicPlaying;
+            });
+
+            // Galerie photo - Carrousel
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.gallery-slide');
+            const dots = document.querySelectorAll('.gallery-dot');
+            const prevArrow = document.querySelector('.prev-arrow');
+            const nextArrow = document.querySelector('.next-arrow');
+
+            function showSlide(index) {
+                // Masquer toutes les slides
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                });
+
+                // Désactiver tous les points
+                dots.forEach(dot => {
+                    dot.classList.remove('active');
+                });
+
+                // Afficher la slide sélectionnée
+                slides[index].classList.add('active');
+                dots[index].classList.add('active');
+
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                let nextIndex = currentSlide + 1;
+                if (nextIndex >= slides.length) {
+                    nextIndex = 0;
+                }
+                showSlide(nextIndex);
+            }
+
+            function prevSlide() {
+                let prevIndex = currentSlide - 1;
+                if (prevIndex < 0) {
+                    prevIndex = slides.length - 1;
+                }
+                showSlide(prevIndex);
+            }
+
+            // Événements pour les flèches
+            nextArrow.addEventListener('click', nextSlide);
+            prevArrow.addEventListener('click', prevSlide);
+
+            // Événements pour les points de navigation
+            dots.forEach(dot => {
+                dot.addEventListener('click', function () {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    showSlide(index);
+                });
+            });
+
+            // Défilement automatique
+            let slideInterval = setInterval(nextSlide, 5000);
+
+            // Arrêter le défilement automatique au survol
+            const galleryContainer = document.querySelector('.gallery-container');
+            galleryContainer.addEventListener('mouseenter', () => {
+                clearInterval(slideInterval);
+            });
+
+            galleryContainer.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(nextSlide, 5000);
+            });
+
+            // Initialisation
+            document.addEventListener('DOMContentLoaded', function () {
+                createHearts();
+
+                // Animation d'entrée pour les éléments
+                const elements = document.querySelectorAll('.couple-names, .date, .location, .message, .details, .gallery-section, .qrcode-section, .footer');
+                elements.forEach((el, index) => {
+                    el.style.animationDelay = (index * 0.2) + 's';
+                });
+            });
+        </script>
+    </body>
+</html>
