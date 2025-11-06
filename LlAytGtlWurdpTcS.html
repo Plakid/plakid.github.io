@@ -273,13 +273,13 @@
                 transform: scale(1.1);
             }
 
-            /* Section RSVP */
-            .rsvp-section {
+            /* Section QR Code */
+            .qrcode-section {
                 margin: 25px 0;
                 animation: fadeIn 1s ease-out 1.8s both;
             }
 
-            .rsvp-title {
+            .qrcode-title {
                 text-align: center;
                 font-size: 22px;
                 margin-bottom: 15px;
@@ -287,7 +287,7 @@
                 position: relative;
             }
 
-            .rsvp-title::after {
+            .qrcode-title::after {
                 content: "";
                 position: absolute;
                 bottom: -8px;
@@ -299,134 +299,28 @@
                 border-radius: 2px;
             }
 
-            .rsvp-form {
-                background: #f9f9f9;
-                border-radius: 15px;
-                padding: 20px;
-                margin-bottom: 20px;
-            }
-
-            .form-group {
-                margin-bottom: 15px;
-            }
-
-            .form-group label {
-                display: block;
-                margin-bottom: 5px;
-                font-weight: 500;
-                color: #555;
-            }
-
-            .form-control {
-                width: 100%;
-                padding: 12px 15px;
-                border: 1px solid #ddd;
-                border-radius: 10px;
-                font-size: 1rem;
-                transition: border 0.3s;
-            }
-
-            .form-control:focus {
-                border-color: #ff9a9e;
-                outline: none;
-            }
-
-            .attendance-options {
-                display: flex;
-                gap: 10px;
-                margin-top: 10px;
-            }
-
-            .attendance-option {
-                flex: 1;
+            .qrcode-container {
                 text-align: center;
+                margin: 20px 0;
             }
 
-            .attendance-option input {
-                display: none;
-            }
-
-            .attendance-option label {
+            .qrcode-image {
+                width: 200px;
+                height: 200px;
                 display: block;
-                padding: 10px;
-                background: #e9ecef;
+                margin: 0 auto;
                 border-radius: 10px;
-                cursor: pointer;
-                transition: all 0.3s;
-                font-weight: normal;
-            }
-
-            .attendance-option input:checked + label {
-                background: #ff9a9e;
-                color: white;
-            }
-
-            .submit-btn {
-                display: block;
-                width: 100%;
-                padding: 15px;
-                background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-                color: white;
-                border: none;
-                border-radius: 50px;
-                font-size: 18px;
-                font-weight: bold;
-                cursor: pointer;
-                transition: transform 0.3s, box-shadow 0.3s;
-            }
-
-            .submit-btn:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 7px 15px rgba(255, 154, 158, 0.4);
-            }
-
-            .submit-btn:disabled {
-                background: #ccc;
-                cursor: not-allowed;
-                transform: none;
-                box-shadow: none;
-            }
-
-            /* Section Confirmation */
-            .confirmation-section {
-                text-align: center;
-                padding: 20px;
-                background: #f9f9f9;
-                border-radius: 15px;
-                margin-top: 20px;
-                display: none;
-            }
-
-            .confirmation-section.active {
-                display: block;
-                animation: fadeIn 0.5s ease-out;
-            }
-
-            .table-info {
-                font-size: 24px;
-                color: #ff9a9e;
-                margin: 15px 0;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             }
 
             .guest-info {
                 font-size: 18px;
-                margin-bottom: 20px;
+                margin: 15px 0;
                 color: #555;
-            }
-
-            .qrcode-container {
-                margin: 20px auto;
-                padding: 15px;
-                background: white;
+                text-align: center;
+                padding: 10px;
+                background: #f9f9f9;
                 border-radius: 10px;
-                display: inline-block;
-                box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            }
-
-            .confirmation-message {
-                margin-top: 15px;
-                color: #666;
-                font-style: italic;
             }
 
             .footer {
@@ -601,7 +495,7 @@
                     <h2 class="gallery-title">Nos Moments</h2>
                     <div class="gallery-container">
                         <div class="gallery-slide active">
-                            <img src="16.jpg" alt="Nos débuts" class="gallery-image">
+                            <img src="16.png" alt="Nos débuts" class="gallery-image">
                             <div class="gallery-caption">Nos débuts</div>
                         </div>
                         <div class="gallery-slide">
@@ -635,71 +529,20 @@
                     </div>
                 </div>
 
-                <!-- Section RSVP -->
-                <div class="rsvp-section">
-                    <h2 class="rsvp-title">Confirmez votre présence</h2>
-
-                    <div class="rsvp-form">
-                        <div class="form-group">
-                            <label for="name">Votre nom complet *</label>
-                            <input type="text" id="name" class="form-control" placeholder="Prénom et Nom" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Votre email *</label>
-                            <input type="email" id="email" class="form-control" placeholder="votre@email.com" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="guests">Nombre de personnes</label>
-                            <select id="guests" class="form-control">
-                                <option value="1">1 personne</option>
-                                <option value="2" selected>2 personnes</option>
-                                <option value="3">3 personnes</option>
-                                <option value="4">4 personnes</option>
-                                <option value="5">5 personnes ou plus</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Participation *</label>
-                            <div class="attendance-options">
-                                <div class="attendance-option">
-                                    <input type="radio" id="yes" name="attendance" value="yes" checked>
-                                    <label for="yes">Avec plaisir !</label>
-                                </div>
-                                <div class="attendance-option">
-                                    <input type="radio" id="no" name="attendance" value="no">
-                                    <label for="no">Je ne pourrai pas</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="message">Message pour les mariés (optionnel)</label>
-                            <textarea id="message" class="form-control" rows="3" placeholder="Votre message..."></textarea>
-                        </div>
-
-                        <button class="submit-btn" id="submitBtn">Envoyer ma réponse</button>
+                <!-- Section QR Code (remplace la section RSVP) -->
+                <div class="qrcode-section">
+                    <h2 class="qrcode-title"> Couple Marco Kitenge</h2>
+                    <div class="guest-info">Votre QR Code d'Invitation</div>
+                    <div class="qrcode-container">
+                        <img src="LlAytGtlWurdpTcS.png" alt="QR Code Invitation" class="qrcode-image">
                     </div>
-
-                    <!-- Section Confirmation -->
-                    <div class="confirmation-section" id="confirmationSection">
-                        <h3>Merci pour votre confirmation !</h3>
-                        <div class="guest-info" id="guestInfo"></div>
-                        <div class="table-info" id="tableInfo"></div>
-                        <div class="qrcode-container">
-                            <div id="qrcode"></div>
-                        </div>
-                        <p class="confirmation-message">Présentez ce QR code à l'entrée pour accéder à votre table</p>
-                    </div>
+                    <p style="text-align: center; color: #666; margin-top: 10px;">Présentez ce QR code à l'entrée de la cérémonie</p>
                 </div>
+
             </div>
 
             <div class="footer">
-                <p>Merci de confirmer votre présence avant le 06 Novembre 2025</p>
-                <p>Tenue de soirée élégante souhaitée</p>
-		<p><a href="listcontent.html">_</a>
+                <p>Nous vous souhaitons la bienvenue</p>
             </div>
         </div>
 
@@ -813,63 +656,12 @@
                 slideInterval = setInterval(nextSlide, 5000);
             });
 
-            // Gestion du formulaire RSVP
-            document.getElementById('submitBtn').addEventListener('click', function () {
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const guests = document.getElementById('guests').value;
-                const attendance = document.querySelector('input[name="attendance"]:checked').value;
-                const message = document.getElementById('message').value;
-
-                if (!name || !email) {
-                    alert('Veuillez remplir les champs obligatoires (nom et email)');
-                    return;
-                }
-
-                // Simulation d'envoi
-                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
-                this.disabled = true;
-
-                // Simulation d'appel à l'endpoint
-                setTimeout(() => {
-                    // Données simulées de l'endpoint
-                    const tableNumber = Math.floor(Math.random() * 12) + 1;
-                    const guestName = name;
-
-                    // Afficher les informations de confirmation
-                    document.getElementById('guestInfo').textContent = guestName;
-                    document.getElementById('tableInfo').textContent = `Table ${tableNumber}`;
-
-                    // Générer le QR code
-                    const qrText = `${guestName} - Table ${tableNumber} - Mariage Emma & Lucas`;
-                    const qrcodeContainer = document.getElementById('qrcode');
-                    qrcodeContainer.innerHTML = '';
-
-                    QRCode.toCanvas(qrcodeContainer, qrText, {
-                        width: 150,
-                        margin: 1,
-                        color: {
-                            dark: '#ff9a9e',
-                            light: '#ffffff'
-                        }
-                    }, function (error) {
-                        if (error)
-                            console.error(error);
-                    });
-
-                    // Afficher la section de confirmation
-                    document.getElementById('confirmationSection').classList.add('active');
-
-                    this.innerHTML = 'Réponse envoyée !';
-                }, 2000);
-            });
-
             // Initialisation
             document.addEventListener('DOMContentLoaded', function () {
                 createHearts();
 
                 // Animation d'entrée pour les éléments
-                const elements = document.querySelectorAll('.couple-names, .date, .location, .message, .details, .gallery-section, .rsvp-section, .footer');
+                const elements = document.querySelectorAll('.couple-names, .date, .location, .message, .details, .gallery-section, .qrcode-section, .footer');
                 elements.forEach((el, index) => {
                     el.style.animationDelay = (index * 0.2) + 's';
                 });
